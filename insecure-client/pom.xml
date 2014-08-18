@@ -2,6 +2,7 @@
   <name>rest-retro-insecure-client</name>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>rest-retro-insecure-client</artifactId>
+  <packaging>war</packaging>
   <parent>
     <groupId>com.shaigor</groupId>
     <artifactId>rest-retro-parent</artifactId>
@@ -35,24 +36,6 @@
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>package static content</id>
-              <goals>
-                <goal>single</goal>
-              </goals>
-              <phase>package</phase>
-              <configuration>
-                <descriptors>
-                  <descriptor>src/main/assembly/webapp.xml</descriptor>
-                </descriptors>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
