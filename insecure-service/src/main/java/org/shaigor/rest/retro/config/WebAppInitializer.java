@@ -89,7 +89,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 	private void configureSpringMvc(ServletContext servletContext,
 			WebApplicationContext rootContext) {
 		AnnotationConfigWebApplicationContext mvcContext = new AnnotationConfigWebApplicationContext();
-		mvcContext.register(WordsSereviceConfig.class);
+		mvcContext.register(WordsSereviceConfig.class,InsecureWebMvcConfigurer.class);
 
 		mvcContext.setParent(rootContext);
 

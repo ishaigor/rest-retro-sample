@@ -18,27 +18,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with the sample.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.shaigor.rest.retro.service.impl;
+package org.shaigor.rest.retro.service.security.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
+import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 
 /**
- * Provides configuration for the service to be used
+ * Method security aspects of configuration
+ * 
  * @author Irena Shaigorodsky
  */
 @Configuration
-@PropertySource("classpath:words.service.properties")
-@ComponentScan(basePackages="org.shaigor.rest.retro.service.impl")
-@Profile("prod")
-public class WordsSereviceConfig {
-
-	@Bean public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(){
-		   PropertySourcesPlaceholderConfigurer ppc = new PropertySourcesPlaceholderConfigurer();
-		   return ppc;
-		}
+@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
+public class OAuth2MethodSecurityConfigurer extends GlobalMethodSecurityConfiguration {
+    @Override
+    protected MethodSecurityExpressionHandler createExpressionHandler() {
+        return new OAuth2MethodSecurityExpressionHandler();
+    }
 }
