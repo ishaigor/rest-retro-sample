@@ -40,11 +40,20 @@ CREATE TABLE group_members (
 
 
 INSERT INTO users (username, password)
-VALUES('Ashlie', '123456');
+VALUES('Ashlie', '6e22be5a7ca6342a8981ff9e9365c7b27d2dde9a48ad47f80d5969182486c31632fc1588a733e025'); -- 123456
 
 
 INSERT INTO authorities
 VALUES('Ashlie', 'USER');
+
+INSERT INTO authorities
+VALUES('Ashlie', 'MAX_WORDS_100');
+
+INSERT INTO users (username, password)
+VALUES('Cameron', '6e22be5a7ca6342a8981ff9e9365c7b27d2dde9a48ad47f80d5969182486c31632fc1588a733e025'); -- 123456
+
+INSERT INTO authorities
+VALUES('Cameron', 'USER');
 
 
 INSERT INTO groups
