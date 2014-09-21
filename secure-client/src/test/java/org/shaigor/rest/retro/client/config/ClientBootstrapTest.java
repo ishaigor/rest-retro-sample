@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with the sample.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.shaigor.rest.retro.security.gateway;
+package org.shaigor.rest.retro.client.config;
 
 import javax.annotation.Resource;
 
@@ -44,11 +44,11 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader=AnnotationConfigWebContextLoader.class)
-@ComponentScan("org.shaigor.rest.retro.service.security")
+@ComponentScan("org.shaigor.rest.retro.client.config")
 @WebAppConfiguration
 @Configurable
 @ActiveProfiles("prod")
-public class ServiceBootstrapTest {
+public class ClientBootstrapTest {
 
     private MockMvc mockMvc;
 

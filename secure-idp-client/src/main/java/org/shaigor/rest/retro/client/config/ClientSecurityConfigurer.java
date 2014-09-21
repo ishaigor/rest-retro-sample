@@ -23,7 +23,6 @@ package org.shaigor.rest.retro.client.config;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import org.shaigor.rest.retro.auth.CustomAuthenticationDetailSource;
 import org.shaigor.rest.retro.config.PersistenceConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,7 +35,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -51,7 +50,7 @@ public class ClientSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Resource private DataSource securityDataSource;
 	@Resource private String 	 groupAuthoritiesByUsernameSql;
-
+	
 	@Override
     public void configure( AuthenticationManagerBuilder auth) throws Exception {
         auth.
@@ -78,29 +77,13 @@ public class ClientSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
     	http
-    		.authorizeRequests().antMatchers("/login.jsp").permitAll().and()
-            .authorizeRequests()
-                .anyRequest().hasRole("USER")
-                .and()
-            .exceptionHandling()
-                .accessDeniedPage("/login.jsp?authorization_error=true")
-                .and()
-            .csrf(). // TODO CSRF token repository
-            	and()
-            .logout()
-                .logoutSuccessUrl("/login.jsp")
-                .logoutUrl("/logout.do")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout.do"))
-                .permitAll()
-                .and()
-            .formLogin()
-            	.authenticationDetailsSource(new CustomAuthenticationDetailSource())
-                .loginPage("/login.jsp")
-                .loginProcessingUrl("/j_spring_security_check")
-                .failureUrl("/login.jsp?authentication_error=true")
-                .usernameParameter("j_username")
-                .passwordParameter("j_password")
-                .permitAll()
+    		.anonymous()
+    			.disable()
+    		.authorizeRequests().anyRequest()
+    			.fullyAuthenticated()
+    			.and()
+    		.exceptionHandling()
+    			.accessDeniedHandler(new OAuth2AccessDeniedHandler())
                 ;
 	}
 }

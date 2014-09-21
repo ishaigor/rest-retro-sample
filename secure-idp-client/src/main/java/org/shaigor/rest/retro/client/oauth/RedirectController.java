@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with the sample.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.shaigor.rest.retro.security.gateway.oauth;
+package org.shaigor.rest.retro.client.oauth;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,10 +29,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//@Controller
+@Controller
 /**
  * The redirect callback to launch the JavaScript
- * @author ishaigorodsky
+ * @author Irena Shaigorodsky
  *
  */
 public class RedirectController {
@@ -45,7 +45,7 @@ public class RedirectController {
 			 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			 // TODO
 		}
-		return "container";
+		return "index";
 		
 	}
 }

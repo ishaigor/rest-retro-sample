@@ -24,7 +24,9 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,10 +34,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan(basePackages={"org.shaigor.rest.retro.security.gateway.oauth"})
 /**
  * Web Security aspects of configuration
  * 
@@ -45,10 +49,15 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Resource private DataSource securityDataSource;
 	@Resource private String 	 groupAuthoritiesByUsernameSql;
+	
+	@Resource(name="demoOAuth2WebSecurityExpressionHandler")
+	private SecurityExpressionHandler<FilterInvocation> expressionHandler;
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/oauth/uncache_approvals", "/oauth/cache_approvals");
+		web
+			.expressionHandler(expressionHandler)
+			.ignoring().antMatchers("/oauth/uncache_approvals", "/oauth/cache_approvals");
 	}
 
     
@@ -71,9 +80,11 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-	        .authorizeRequests().antMatchers("/login.jsp").permitAll().and()
+		    .authorizeRequests().antMatchers("/login.jsp").permitAll().and()
 	        .authorizeRequests()
-	            .anyRequest().hasRole("USER")
+	        	.expressionHandler(expressionHandler)
+	            .anyRequest()
+	            .hasRole("USER")
 	            .and()
 	        .exceptionHandling()
 	            .accessDeniedPage("/login.jsp?authorization_error=true")

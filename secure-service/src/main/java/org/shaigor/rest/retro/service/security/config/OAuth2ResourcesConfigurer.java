@@ -15,6 +15,7 @@ public class OAuth2ResourcesConfigurer extends WebSecurityConfigurerAdapter {
 			.requestMatchers().regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?")
 		.and()
 			.authorizeRequests()
-				.regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?").access("hasRole('ROLE_USER')");
+				.regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?")
+					.access("hasIpAddress('127.0.0.1') or hasRole('ROLE_USER')");
 	}
 }

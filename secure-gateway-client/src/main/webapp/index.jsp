@@ -36,6 +36,11 @@ if ((SecurityContextHolder.getContext() != null)
       <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"  type="text/javascript"></script>
       <script type="text/javascript" src="./js/ng-infinite-scroll.min.js"></script>
       <script src="./js/words.js"  type="text/javascript"></script>
+      <div>
+          <form action="<c:url value="/logout.do"/>" method="POST">
+              <button class="btn btn-primary" type="submit">Logout</button>
+          </form>
+      </div>
       <div ng-app='wordsApp' ng-controller='WordsController'>
         <div infinite-scroll='wordsService.nextPage()' infinite-scroll-disabled='wordsService.busy' infinite-scroll-distance='1'>
           <div ng-repeat='word in wordsService.items'>

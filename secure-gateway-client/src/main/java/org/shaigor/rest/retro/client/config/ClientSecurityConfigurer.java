@@ -36,6 +36,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -89,6 +90,7 @@ public class ClientSecurityConfigurer extends WebSecurityConfigurerAdapter {
             .logout()
                 .logoutSuccessUrl("/login.jsp")
                 .logoutUrl("/logout.do")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout.do"))
                 .permitAll()
                 .and()
             .formLogin()

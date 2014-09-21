@@ -55,6 +55,19 @@ VALUES('Cameron', '6e22be5a7ca6342a8981ff9e9365c7b27d2dde9a48ad47f80d5969182486c
 INSERT INTO authorities
 VALUES('Cameron', 'USER');
 
+INSERT INTO authorities
+VALUES('Cameron', 'WORDS_DEMO');
+
+
+INSERT INTO users (username, password)
+VALUES('Juhana', '6e22be5a7ca6342a8981ff9e9365c7b27d2dde9a48ad47f80d5969182486c31632fc1588a733e025'); -- 123456
+
+INSERT INTO authorities
+VALUES('Juhana', 'USER');
+
+INSERT INTO authorities
+VALUES('Juhana', 'WORDS_PRODUCTION');
+
 
 INSERT INTO groups
 VALUES(1, 'OPERATIONS');
@@ -142,7 +155,7 @@ VALUES(
 '3c0dfe9a-39ee-11e4-9346-bb86709fcb1d',
 'words',
  'password', 
-null, -- 'http://localhost:8080/secure/client/v1.0/oauth/redirect',
+null,
 null,
 1800,
 2700,
@@ -150,3 +163,21 @@ null,
 'words',
 now(),
 now());
+
+INSERT INTO oauth_client_details
+VALUES(
+'42be4a10-39ee-11e4-9346-bb86709fcb1d', 
+'rest-retro', 
+'ff02f49a-4052-11e4-9346-bb86709fcb1d',
+'words',
+ 'authorization_code', 
+'http://localhost:8080/secure/idp/client/v1.0/oauth/redirect',
+null,
+1800,
+2700,
+null,
+'words',
+now(),
+now());
+
+select UUID();

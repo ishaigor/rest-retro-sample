@@ -91,7 +91,7 @@ public class OAuthPostAuthListener implements ApplicationListener<Authentication
 	private ResourceOwnerPasswordResourceDetails getResourceOwnerPasswordResourceDetails() {
 		ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
 	
-		resource.setAccessTokenUri("http://localhost:8080/secure/service/v1.0/oauth/token");
+		resource.setAccessTokenUri("http://localhost:8080/secure/gateway/v1.0/oauth/token");
 		resource.setClientId("35221af8-39ee-11e4-9346-bb86709fcb1d");
 		resource.setClientSecret("3c0dfe9a-39ee-11e4-9346-bb86709fcb1d");
 		return resource;

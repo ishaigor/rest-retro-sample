@@ -18,34 +18,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with the sample.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.shaigor.rest.retro.oauth;
+package org.shaigor.rest.retro.security.gateway.oauth;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-//@Controller
-/**
- * The redirect callback to launch the JavaScript
- * @author ishaigorodsky
- *
- */
-public class RedirectController {
+public class CustomSecurityExpressionMethods extends SecurityExpressionRoot {
 
-	@RequestMapping("/oauth/redirect")
-	public String redirect(@RequestBody String body, HttpServletRequest request) {
-		if ((SecurityContextHolder.getContext() != null)
-                && (SecurityContextHolder.getContext() instanceof SecurityContext)
-                && (SecurityContextHolder.getContext().getAuthentication() != null)) {
-			 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			 // TODO
-		}
-		return "container";
-		
+	public static final String ROLE_WORDS_PRODUCTION = "ROLE_WORDS_PRODUCTION";
+
+	public static final String ROLE_WORDS_DEMO = "ROLE_WORDS_DEMO";
+	public CustomSecurityExpressionMethods(Authentication authentication) {
+		super(authentication);
 	}
+	
+	public boolean accessAllowed() {
+		boolean canAccess = hasRole(ROLE_WORDS_DEMO) || hasRole(ROLE_WORDS_PRODUCTION);
+		return canAccess;
+	}
+
 }

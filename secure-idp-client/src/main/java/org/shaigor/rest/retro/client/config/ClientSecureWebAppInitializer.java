@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
@@ -38,7 +39,9 @@ public class ClientSecureWebAppInitializer extends AbstractDispatcherServletInit
 	@Override
 	protected WebApplicationContext createServletApplicationContext() {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-		context.register(ClientSecurityConfigurer.class, ClientWebMvcConfigurerAdapter.class);
+		context.register(ClientSecurityConfigurer.class
+				, ClientOAuth2Configurer.class
+				, ClientWebMvcConfigurerAdapter.class);
 		return context;
 	}
 
@@ -55,7 +58,10 @@ public class ClientSecureWebAppInitializer extends AbstractDispatcherServletInit
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		super.onStartup(servletContext);
-		registerProxyFilter(servletContext, "springSecurityFilterChain");
+//		registerProxyFilter(servletContext, "springSecurityFilterChain");
+		registerProxyFilter(servletContext, "oauth2ClientContextFilter");
+		registerProxyFilter(servletContext, "customOauth2ClientContextFilter");
+		servletContext.addListener(RequestContextListener.class);
 	}
 
 	private void registerProxyFilter(ServletContext servletContext, String name) {

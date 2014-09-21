@@ -11,6 +11,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven>3.0.1</maven>
   </prerequisites>
   <properties>
+  	<aspectj.version>1.8.2</aspectj.version>
+  	<cglib.version>3.1</cglib.version>
     <context.path>/rest/retro/demo</context.path>
     <dbcp2.version>2.0.1</dbcp2.version>
     <fest-assert.version>1.4</fest-assert.version>
@@ -254,5 +256,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <module>secure-client</module>
     <module>secure-gateway</module>
     <module>secure-gateway-client</module>
+    <module>secure-idp-client</module>
   </modules>
 </project>

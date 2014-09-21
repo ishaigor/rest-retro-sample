@@ -45,6 +45,27 @@ public class RangeEnforcerTest {
 	}
 
 	@Test
+	public void testReplaceRange2() {
+		String queryString = "?from=150&to=250";
+		String result = enforcer.enrichQueryString(queryString);
+		assertThat(result).isEqualTo("?from=100&to=100");
+	}
+
+	@Test
+	public void testReplaceRange3() {
+		String queryString = "?from=150&to=50";
+		String result = enforcer.enrichQueryString(queryString);
+		assertThat(result).isEqualTo("?from=100&to=50");
+	}
+
+	@Test
+	public void testReplaceRange4() {
+		String queryString = "?from=150";
+		String result = enforcer.enrichQueryString(queryString);
+		assertThat(result).isEqualTo("?from=100&to=100");
+	}
+
+	@Test
 	public void testRangeNoChange() {
 		String queryString = "?from=1&to=50";
 		String result = enforcer.enrichQueryString(queryString);
@@ -59,9 +80,9 @@ public class RangeEnforcerTest {
 		context.setAuthentication(authentication);
 		SecurityContextHolder.setContext(context);
 
-		String queryString = "?from=50&to=150";
+		String queryString = "?from=101&to=150";
 		String result = enforcer.enrichQueryString(queryString);
-		assertThat(result).isEqualTo("?from=50&to=150");
+		assertThat(result).isEqualTo("?from=101&to=150");
 	}
 	
 }
