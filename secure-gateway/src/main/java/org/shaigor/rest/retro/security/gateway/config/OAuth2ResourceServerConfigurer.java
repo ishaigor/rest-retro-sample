@@ -6,6 +6,7 @@ import static org.shaigor.rest.retro.security.gateway.oauth.CustomSecurityExpres
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.web.FilterInvocation;
 
 @Configuration
 @EnableResourceServer
+@Order(10)
 public class OAuth2ResourceServerConfigurer extends
 		ResourceServerConfigurerAdapter {
 

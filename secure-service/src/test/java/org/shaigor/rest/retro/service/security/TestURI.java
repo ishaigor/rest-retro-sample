@@ -1,3 +1,4 @@
+package org.shaigor.rest.retro.service.security;
 /**
  * Copyright 2014 the original author or authors.
  * 
@@ -18,19 +19,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with the sample.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.shaigor.rest.retro.security.gateway.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jmx.support.MBeanServerFactoryBean;
 
-@Configuration
-public class JMXConfiguration {
+/**
+ * @author Irena Shaigorodsky (ishaigorodsky@enservio.com)
+ *	Represents requiest URI for testing perposes along with expected response
+ */
+public class TestURI {
 
-	@Bean public MBeanServerFactoryBean mbeanServer() {
-		MBeanServerFactoryBean server = new MBeanServerFactoryBean();
-		server.setDefaultDomain(JMXConfiguration.class.getPackage().getName());
-		server.setLocateExistingServerIfPossible(true);
-		return server;
+	private String uri;
+	private String response;
+
+	public TestURI(String uri, String response) {
+		this.uri = uri;
+		this.response = response;
 	}
+	
+	/**
+	 * @return the uri to test
+	 */
+	public String getUri() {
+		return uri;
+	}
+
+	/**
+	 * @return the response to expect
+	 */
+	public String getResponse() {
+		return response;
+	}
+
 }

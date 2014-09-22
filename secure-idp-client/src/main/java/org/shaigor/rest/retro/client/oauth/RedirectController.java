@@ -20,16 +20,15 @@
  */
 package org.shaigor.rest.retro.client.oauth;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.Resource;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 /**
  * The redirect callback to launch the JavaScript
  * @author Irena Shaigorodsky
@@ -37,13 +36,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 public class RedirectController {
 
+	@Resource
+	private OAuth2RestTemplate oauthRestTemplate;
+
 	@RequestMapping("/oauth/redirect")
-	public String redirect(@RequestBody String body, HttpServletRequest request) {
-		if ((SecurityContextHolder.getContext() != null)
-                && (SecurityContextHolder.getContext() instanceof SecurityContext)
-                && (SecurityContextHolder.getContext().getAuthentication() != null)) {
-			 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			 // TODO
+	/**
+	 * Action on grant code
+	 * @param code - grant code
+	 * @param state - oauth state
+	 * @param request - http request just in case
+	 * @return view name
+	 */
+	public String redirect(@RequestParam("code") String code
+			, @RequestParam("state") String state) {
+		if (!StringUtils.isEmpty(code)) {
+			oauthRestTemplate.getOAuth2ClientContext().getAccessTokenRequest().setAuthorizationCode(code);
+		}
+		if (!StringUtils.isEmpty(state)) {
+			oauthRestTemplate.getOAuth2ClientContext().getAccessTokenRequest().setStateKey(state);
 		}
 		return "index";
 		

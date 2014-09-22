@@ -41,10 +41,9 @@ import org.springframework.stereotype.Component;
 @Component
 /**
  * Piggybacks on authentication to acquire OAuth token with the credentials
- * @author ishaigorodsky
+ * @author Irena Shaigorodsky
  *
  */
-// TODO @EnableOAuthClient
 public class OAuthPostAuthListener implements ApplicationListener<AuthenticationSuccessEvent>{
 
 	private static Logger log = LoggerFactory.getLogger(OAuthPostAuthListener.class);
