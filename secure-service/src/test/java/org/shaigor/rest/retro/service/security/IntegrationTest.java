@@ -56,7 +56,7 @@ public abstract class IntegrationTest {
 	 * @param pwd the password of the user
 	 * @throws IOException 
 	 */
-	protected void testPostResourceAccess(TestURI testUri, MultiValueMap<String, String> formData) throws IOException {
+	protected void testPostResourceAccess(URIInfo testUri, MultiValueMap<String, String> formData) throws IOException {
 		ResponseEntity<String> response =	helper.postForString(testUri.getUri(), formData);
 		
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -71,13 +71,11 @@ public abstract class IntegrationTest {
 	 * @param pwd the password of the user
 	 * @throws IOException 
 	 */
-	protected void testResourceAccess(TestURI testUri) throws IOException {
+	protected void testResourceAccess(URIInfo testUri) throws IOException {
 		HttpHeaders headers = new HttpHeaders();
 		ResponseEntity<String> response =	helper.getForResponse(testUri.getUri(), headers);
 		
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        int expiry = context.getAccessToken().getExpiresIn();
-        assertTrue("Expiry not overridden in config: " + expiry, expiry > 1000 && expiry <= EXPIRY_SEC);
         assertEquals("Rigth method should be called.", testUri.getResponse(), response.getBody());
 	}
 

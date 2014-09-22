@@ -20,21 +20,19 @@
  */
 package org.shaigor.rest.retro.service.security;
 
-import javax.annotation.Resource;
+import java.util.Arrays;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.shaigor.rest.retro.service.security.IntegrationTestHelper.ResourceOwner;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.oauth2.client.test.OAuth2ContextConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Test bootstrapping
@@ -48,21 +46,36 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 @Configurable
 @ActiveProfiles("prod")
-public class ServiceBootstrapTest {
+public class ServiceBootstrapIntegrationTest extends IntegrationTest {
 
-    private MockMvc mockMvc;
-
-    @Resource
-    private WebApplicationContext wac;
-
-    @Before
-    public void setup() throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
+//    private MockMvc mockMvc;
+//
+//    @Resource
+//    private WebApplicationContext wac;
+//
+//    @Before
+//    public void setup() throws Exception {
+//        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+//    }
 
     @Test
+    @OAuth2ContextConfiguration(ResourceOwnerAuthorityInScope.class)
 	public void testRootContext() throws Exception{
-
+    	testResourceAccess(new URIInfo("/secure/service/v1.0/word/list?from=1&to=2", "[\"a\"]"));
 	}
 
+	static class ResourceOwnerAuthorityInScope extends ResourceOwner {
+        public ResourceOwnerAuthorityInScope(Object targetObject) {
+                super(targetObject);
+                setClientSecret("3c0dfe9a-39ee-11e4-9346-bb86709fcb1d");
+                setUsername("Ashlie");
+                setPassword("123456");
+                setScope(Arrays.asList("words"));
+        }
+    }
+
+	@Override
+	public String getTokenUrl() {
+		return "http://localhost:8080/secure/service/v1.0/oauth/token";
+	}
 }

@@ -25,12 +25,12 @@ package org.shaigor.rest.retro.service.security;
  * @author Irena Shaigorodsky (ishaigorodsky@enservio.com)
  *	Represents requiest URI for testing perposes along with expected response
  */
-public class TestURI {
+public class URIInfo {
 
 	private String uri;
 	private String response;
 
-	public TestURI(String uri, String response) {
+	public URIInfo(String uri, String response) {
 		this.uri = uri;
 		this.response = response;
 	}
