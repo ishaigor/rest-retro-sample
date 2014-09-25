@@ -52,8 +52,7 @@ public class ClientSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
     public void configure( AuthenticationManagerBuilder auth) throws Exception {
-        auth.
-        	eraseCredentials(false) // Credentials will be erased once OAuth token is obtained
+        auth
         	.jdbcAuthentication()
             .dataSource(securityDataSource)
             .rolePrefix("ROLE_")

@@ -102,7 +102,7 @@
         </collectionProp>
       </Arguments>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Protected Service" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Protected Service" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="contextPath" elementType="Argument">
             <stringProp name="Argument.name">contextPath</stringProp>
@@ -122,7 +122,7 @@
         </collectionProp>
       </Arguments>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Protected Gateway" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Protected Gateway" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="contextPath" elementType="Argument">
             <stringProp name="Argument.name">contextPath</stringProp>

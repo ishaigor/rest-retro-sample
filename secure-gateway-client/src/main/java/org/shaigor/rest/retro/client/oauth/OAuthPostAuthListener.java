@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.CredentialsContainer;
@@ -45,7 +46,7 @@ import org.springframework.stereotype.Component;
  *
  */
 // TODO @EnableOAuthClient
-public class OAuthPostAuthListener implements ApplicationListener<AuthenticationSuccessEvent>{
+public class OAuthPostAuthListener implements ApplicationListener<AbstractAuthenticationEvent>{
 
 	private static Logger log = LoggerFactory.getLogger(OAuthPostAuthListener.class);
 
@@ -53,9 +54,10 @@ public class OAuthPostAuthListener implements ApplicationListener<Authentication
   			Arrays.<AccessTokenProvider> asList(new ResourceOwnerPasswordAccessTokenProvider())); 
 
 	@Override
-	public void onApplicationEvent(AuthenticationSuccessEvent event) {
+	public void onApplicationEvent(AbstractAuthenticationEvent event) {
 		Authentication authentication = event.getAuthentication();
 
+		if (event instanceof AuthenticationSuccessEvent) {
 		  ResourceOwnerPasswordResourceDetails resource = getResourceOwnerPasswordResourceDetails();
 		  resource.setScope(Arrays.asList("words"));
 		  resource.setUsername(authentication.getName());
@@ -76,7 +78,7 @@ public class OAuthPostAuthListener implements ApplicationListener<Authentication
 		  } catch (Exception e) {
 			  log.error("Access token request failed for user: '" + resource.getUsername() + "'", e);
 		  }
-		
+		}
 		if (authentication instanceof CredentialsContainer) {
             // Authentication is complete. Remove credentials and other secret data from authentication
             ((CredentialsContainer)authentication).eraseCredentials();

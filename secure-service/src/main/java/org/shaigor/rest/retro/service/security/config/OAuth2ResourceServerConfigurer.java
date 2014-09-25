@@ -24,7 +24,8 @@ public class OAuth2ResourceServerConfigurer extends
 		http
 			.authorizeRequests()
 				.regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?")
-					.access("hasIpAddress('127.0.0.1') or (#oauth2.hasScope('words') and hasRole('ROLE_USER'))")
+//					.access("hasIpAddress('127.0.0.1') or (#oauth2.hasScope('words') and hasRole('ROLE_USER'))")
+					.access("#oauth2.hasScope('words') and hasRole('ROLE_USER')")
 				;
 	}
 }
