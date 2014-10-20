@@ -20,12 +20,16 @@
  */
 package org.shaigor.rest.retro.security.gateway.config;
 
+import static org.shaigor.rest.retro.security.gateway.oauth.CustomSecurityExpressionMethods.ROLE_WORDS_DEMO;
+import static org.shaigor.rest.retro.security.gateway.oauth.CustomSecurityExpressionMethods.ROLE_WORDS_PRODUCTION;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -78,7 +82,7 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
         ;
 	}
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	public void configure(HttpSecurity http) throws Exception {
 		http
 		    .authorizeRequests().antMatchers("/login.jsp").permitAll().and()
 	        .authorizeRequests()
@@ -86,6 +90,11 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	            .anyRequest()
 	            .hasRole("USER")
 	            .and()
+	        .authorizeRequests()
+				.regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?")
+					.access("#oauth2.hasScope('words') and hasRole('ROLE_USER') and hasAnyRole('"
+							+ ROLE_WORDS_DEMO +"','" + ROLE_WORDS_PRODUCTION +"')")
+				.and()
 	        .exceptionHandling()
 	            .accessDeniedPage("/login.jsp?authorization_error=true")
 	            .and()
@@ -101,6 +110,6 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	                .passwordParameter("j_password")
 	                .failureUrl("/login.jsp?authentication_error=true")
 	                .loginPage("/login.jsp")
-	                .loginProcessingUrl("/login.do");
+	                .loginProcessingUrl("/j_spring_security_check");
     }
 }

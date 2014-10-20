@@ -5,7 +5,8 @@
     org.springframework.security.core.context.SecurityContext,
     org.springframework.security.core.context.SecurityContextHolder,org.shaigor.rest.retro.auth.CustomAuthenticationDetails,
     org.springframework.security.oauth2.client.OAuth2RestTemplate,
-    org.springframework.security.oauth2.common.OAuth2AccessToken"%>
+    org.springframework.security.oauth2.common.OAuth2AccessToken,
+    static org.shaigor.rest.retro.client.oauth.CustomOAuth2ClientContextFilter.OAUTH2_REST_TEMPLATE"%>
 <%@ taglib prefix="authz"
         uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -14,7 +15,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
      <% 
-     OAuth2RestTemplate template = (OAuth2RestTemplate) request.getAttribute("oauth2RestTemplate");
+     OAuth2RestTemplate template = (OAuth2RestTemplate) request.getAttribute(OAUTH2_REST_TEMPLATE);
      OAuth2AccessToken token = template.getAccessToken();
      %>
       <meta name="_bearer" content="<%= token.getValue() %>"/>

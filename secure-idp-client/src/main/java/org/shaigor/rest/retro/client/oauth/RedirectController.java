@@ -21,14 +21,17 @@
 package org.shaigor.rest.retro.client.oauth;
 
 import javax.annotation.Resource;
+import static org.shaigor.rest.retro.client.oauth.CustomOAuth2ClientContextFilter.OAUTH2_REST_TEMPLATE;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 /**
  * The redirect callback to launch the JavaScript
  * @author Irena Shaigorodsky
@@ -47,15 +50,18 @@ public class RedirectController {
 	 * @param request - http request just in case
 	 * @return view name
 	 */
-	public String redirect(@RequestParam("code") String code
-			, @RequestParam("state") String state) {
+	public ModelAndView redirect(@RequestParam("code") String code
+			, @RequestParam("state") String state
+			,  HttpServletRequest request) {
 		if (!StringUtils.isEmpty(code)) {
 			oauthRestTemplate.getOAuth2ClientContext().getAccessTokenRequest().setAuthorizationCode(code);
 		}
 		if (!StringUtils.isEmpty(state)) {
 			oauthRestTemplate.getOAuth2ClientContext().getAccessTokenRequest().setStateKey(state);
 		}
-		return "index";
+		oauthRestTemplate.getAccessToken();
+		request.setAttribute(OAUTH2_REST_TEMPLATE, oauthRestTemplate);
+		return new ModelAndView("redirect:/index.jsp");
 		
 	}
 }

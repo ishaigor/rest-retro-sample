@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -69,7 +70,7 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
         ;
 	}
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	public void configure(HttpSecurity http) throws Exception {
 		http
 	        .authorizeRequests().antMatchers("/login.jsp").permitAll().and()
 	        .authorizeRequests()
@@ -85,11 +86,18 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	            .logoutSuccessUrl("/index.jsp")
 	            .logoutUrl("/logout.do")
 	            .and()
+			.authorizeRequests()
+				.regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?")
+//					.access("hasIpAddress('127.0.0.1') or (#oauth2.hasScope('words') and hasRole('ROLE_USER'))")
+					.access("#oauth2.hasScope('words') and hasRole('ROLE_USER')")
+			.and()
 	        .formLogin()
 	                .usernameParameter("j_username")
 	                .passwordParameter("j_password")
 	                .failureUrl("/login.jsp?authentication_error=true")
 	                .loginPage("/login.jsp")
-	                .loginProcessingUrl("/login.do");
+	                .loginProcessingUrl("/j_spring_security_check");
     }
+
+
 }

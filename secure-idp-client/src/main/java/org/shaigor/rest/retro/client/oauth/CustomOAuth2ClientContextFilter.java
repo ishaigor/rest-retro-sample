@@ -30,7 +30,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -45,6 +44,7 @@ import org.springframework.stereotype.Component;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class CustomOAuth2ClientContextFilter implements Filter {
 	
+	public static final String OAUTH2_REST_TEMPLATE = "oauth2RestTemplate";
 	@Resource private OAuth2RestTemplate oauth2RestTemplate;
 
 	@Override
@@ -55,8 +55,8 @@ public class CustomOAuth2ClientContextFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		if (servletRequest instanceof HttpServletRequest) {
 			HttpServletRequest request = ((HttpServletRequest) servletRequest);
-			if (request.getAttribute("oauth2RestTemplate") == null) {
-				request.setAttribute("oauth2RestTemplate", oauth2RestTemplate);
+			if (request.getAttribute(OAUTH2_REST_TEMPLATE) == null) {
+				request.setAttribute(OAUTH2_REST_TEMPLATE, oauth2RestTemplate);
 			}
 		}
 		chain.doFilter(servletRequest, servletResponse);
