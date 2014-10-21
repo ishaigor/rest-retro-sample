@@ -82,6 +82,11 @@ public class ClientSecurityConfigurer extends WebSecurityConfigurerAdapter {
     		.authorizeRequests().anyRequest()
     			.fullyAuthenticated()
     			.and()
+	        .logout()
+	            .logoutSuccessUrl("/index.jsp")
+	            .logoutUrl("/logout.do")
+	            .invalidateHttpSession(true)
+	            .and()
     		.exceptionHandling()
     			.accessDeniedHandler(new OAuth2AccessDeniedHandler())
                 ;
