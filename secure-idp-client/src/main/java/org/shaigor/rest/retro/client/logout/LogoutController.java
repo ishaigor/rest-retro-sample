@@ -43,7 +43,7 @@ public class LogoutController {
      * @return
      * @throws ServletException
      */
-    @RequestMapping("/logout")
+    @RequestMapping("/logout.do")
     public ModelAndView logout(HttpServletRequest request) throws ServletException {
         request.getSession().invalidate();;
         return new ModelAndView("redirect:/");
