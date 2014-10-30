@@ -92,8 +92,9 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	            .and()
 	        .authorizeRequests()
 				.regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?")
-					.access("#oauth2.hasScope('words') and hasRole('ROLE_USER') and hasAnyRole('"
-							+ ROLE_WORDS_DEMO +"','" + ROLE_WORDS_PRODUCTION +"')")
+					.access("#oauth2.hasScope('words') and hasRole('ROLE_USER') " 
+							//+ "and hasAnyRole('"+ ROLE_WORDS_DEMO +"','" + ROLE_WORDS_PRODUCTION +"') " 
+							+ "and #wordsServiceAuthorizer.accessAllowed()")
 				.and()
 	        .exceptionHandling()
 	            .accessDeniedPage("/login.jsp?authorization_error=true")
