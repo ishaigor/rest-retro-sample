@@ -38,11 +38,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+//@EnableResourceServer
 @ComponentScan(basePackages={"org.shaigor.rest.retro.security.gateway.oauth"})
 /**
  * Web Security aspects of configuration
@@ -94,7 +96,8 @@ public class OAuth2SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.regexMatchers(HttpMethod.GET, "/word/list(\\?.*)?")
 					.access("#oauth2.hasScope('words') and hasRole('ROLE_USER') " 
 							//+ "and hasAnyRole('"+ ROLE_WORDS_DEMO +"','" + ROLE_WORDS_PRODUCTION +"') " 
-							+ "and #wordsServiceAuthorizer.accessAllowed()")
+							+ "and #wordsServiceAuthorizer.accessAllowed()"
+							)
 				.and()
 	        .exceptionHandling()
 	            .accessDeniedPage("/login.jsp?authorization_error=true")
