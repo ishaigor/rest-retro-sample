@@ -4,9 +4,9 @@ For more information about the talk visit [session page](https://oracleus.active
 
 To deploy run 
 
-mvn clean install
-cp */target/*.war $CATALINA_HOME/webapps/.
+    mvn clean install
+    cp */target/*.war $CATALINA_HOME/webapps/.
 
 To re-deploy clean first
 
-rm -rf $CATALINA_HOME/webapps/secure#*; rm -rf $CATALINA_HOME/webapps/insecure#*
+    rm -rf $CATALINA_HOME/webapps/secure#*; rm -rf $CATALINA_HOME/webapps/insecure#*
