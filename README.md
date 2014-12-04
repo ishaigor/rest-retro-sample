@@ -10,3 +10,7 @@ To deploy run
 To re-deploy clean first
 
     rm -rf $CATALINA_HOME/webapps/secure#*; rm -rf $CATALINA_HOME/webapps/insecure#*
+
+To setup, run following SQL script on local MySQL database
+
+   schema/src/main/resources/create.sql
