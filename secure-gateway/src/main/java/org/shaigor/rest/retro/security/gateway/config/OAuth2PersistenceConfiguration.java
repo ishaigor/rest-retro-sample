@@ -68,5 +68,5 @@ public class OAuth2PersistenceConfiguration {
 	@Bean public AuthorizationCodeServices customAuthorizationCodeService() {
 		return new JdbcAuthorizationCodeServices(securityDataSource);
 	}
-
+	
 }
