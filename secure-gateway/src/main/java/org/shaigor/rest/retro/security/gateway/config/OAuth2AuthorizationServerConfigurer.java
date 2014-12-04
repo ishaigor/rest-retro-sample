@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
@@ -31,12 +33,17 @@ public class OAuth2AuthorizationServerConfigurer extends
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		
 		clients
-			.jdbc(securityDataSource);
+			.jdbc(securityDataSource)
+			;
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		if (clientDetailsService instanceof JdbcClientDetailsService) {
+			((JdbcClientDetailsService) clientDetailsService).setPasswordEncoder(new StandardPasswordEncoder());
+		}
 		endpoints.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler)
 				.authenticationManager(authenticationManager)
 				.clientDetailsService(clientDetailsService)
@@ -46,7 +53,9 @@ public class OAuth2AuthorizationServerConfigurer extends
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-		oauthServer.realm("rest/retro")
+		oauthServer
+			.realm("rest/retro")
+			.allowFormAuthenticationForClients()
 			;
 	}
 

@@ -180,4 +180,20 @@ null,
 now(),
 now());
 
-select UUID();
+INSERT INTO oauth_client_details
+VALUES(
+'b1c1c908-7b68-11e4-8f7a-de10b3517e85', 
+'rest-retro-client', 
+'6e22be5a7ca6342a8981ff9e9365c7b27d2dde9a48ad47f80d5969182486c31632fc1588a733e025',
+'clients',
+ 'client_credentials', 
+null,
+null,
+86400,
+null,
+null,
+null,
+now(),
+now());
+
+select uuid();

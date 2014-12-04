@@ -58,7 +58,7 @@ public class ClientSecureWebAppInitializer extends AbstractDispatcherServletInit
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		super.onStartup(servletContext);
-//		registerProxyFilter(servletContext, "springSecurityFilterChain");
+		registerProxyFilter(servletContext, "springSecurityFilterChain");
 		registerProxyFilter(servletContext, "oauth2ClientContextFilter");
 		registerProxyFilter(servletContext, "customOauth2ClientContextFilter");
 		servletContext.addListener(RequestContextListener.class);

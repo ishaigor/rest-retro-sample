@@ -69,5 +69,4 @@ public class OAuth2PersistenceConfiguration {
 		return new JdbcAuthorizationCodeServices(securityDataSource);
 	}
 
-
 }
